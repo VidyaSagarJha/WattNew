@@ -1,0 +1,489 @@
+{%extends 'Physics/physics_base.html'%}
+{%load static%}
+{%block meta%}
+<!-- HTML Defaults Broweser -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap Stylesheet and Jquery, Google APIS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- Online Calculator Guru Site Fevicon -->
+<link rel="shortcut icon" href="https://onlinecalculator.guru/static/images/logo/Online-Calculator-Guru-Fevicon.png"
+    type="icon">
+<!-- Online Calculator Guru Project Style Sheet -->
+{%block css%}
+<link rel="stylesheet" href="https://onlinecalculator.guru/static/style.css">
+{%endblock%}
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!-- Meta Title, Description and Canonical URL Starts --->
+<title>Angular Resolution Calculator | Free Calculator to find Angular Resolution</title>
+<meta name="description"
+    content="Angular Resolution Calculator makes it easy for you to determine the theoretical yield value of the chemical reaction in fraction of seconds with steps." />
+<link rel="canonical" href="{{request.build_absolute_uri}}">
+<!-- Meta Title, Description and Canonical URL ENDS --->
+
+<!-- OPEN GRAPH CONFIGURATIONS STARTS -->
+<!--  FACEBOOK CONFIGURATION STARTS  -->
+<meta content="https://www.facebook.com/OnlineCalculator-Guru-131572098650589/" property="og:url" />
+<meta property="og:title" content="Angular Resolution Calculator | Free Calculator to find Angular Resolution" />
+<meta property="og:description" content="Angular Resolution Calculator" />
+<meta content="" property="og:site_name" />
+<meta content="https://onlinecalculator.guru/static/images/Chemistry/Theoratical-Yield-Calculator.jpeg"
+    property="og:image" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:height" content="435" />
+<meta property="og:image:width" content="354" />
+<!--  FACEBOOK CONFIGURATION ENDS  -->
+<!-- TWITTER CARD CONFIGURATION STARTS  -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="https://twitter.com/onlinecalculator" />
+<meta name="twitter:title" content="Angular Resolution Calculator | Free Calculator to find Angular Resolution" />
+<meta name="twitter:description"
+    content="Angular Resolution Calculator makes it easy for you to determine the theoretical yield value of the chemical reaction in fraction of seconds with steps." />
+<meta name="twitter:image:src"
+    content="https://onlinecalculator.guru/static/images/Chemistry/Theoratical-Yield-Calculator.jpeg" />
+<meta property="twitter:image:height" content="435" />
+<meta property="twitter:image:width" content="354" />
+<!-- TWITTER CARD CONFIGURATION ENDS  -->
+<!--  LINKEDIN CONFIGURATION STARTS-->
+<meta property='og:title' content="Angular Resolution Calculator | Free Calculator to find Angular Resolution" />
+<meta property='og:image'
+    content="https://onlinecalculator.guru/static/images/Chemistry/Theoratical-Yield-Calculator.jpeg" />
+<meta property='og:description' content="Angular Resolution Calculator." />
+<meta property='og:url' content="https://www.linkedin.com/in/onlinecalculator/" />
+<!-- end of linkedin CONFIGURATIONS ENDS -->
+<!-- OPEN GRAPH CONFIGURATION ENDS -->
+<!-- FAQ SCHEMA STARTS -->
+
+{%endblock%}
+
+{%block content%}
+
+<style>
+    input {
+        text-align: right;
+    }
+</style>
+
+{% if w and ad and r  %}
+<script>
+    $(document).ready(function () {
+
+        $("#hassle").click();
+
+
+    });
+
+
+</script>
+
+<button type="button" hidden id="hassle" onclick="location.href='#get_resolution'">ans1</button>
+{% endif %}
+
+
+<div class="container" style="height: auto !important;">
+    <div class="card c1">
+        <div class="card-header">
+            <h1 class="h1">Watt Calculator</h1>
+        </div>
+        <div class="card-body">
+            <ul class="messages">
+                {% for message in messages %}
+                <p {% if message.tags %} id="message_container" class="alert alert-danger text-center" {% endif %}
+                    style="color:red">{{ message }}</p>
+                {% endfor %}
+            </ul>
+
+            <form action="{% url 'angular_resolution' %}" method="post" id="my_form">
+                {% csrf_token %}
+                <div class="col-auto">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><strong>Choose a Calculation</strong></div>
+                        </div>
+                        <select name="given_data" id="inlineFormInputGroup" class="form-control"
+                            onchange="this.form.submit();" autofocus="">
+
+                            {% if given_data == 'form1' %}
+                            <option value="form1" selected="selected"> Give Resistance and voltage </option>
+                            {% else %}
+                            <option value="form1"> Give Resistance and voltage
+                            </option>
+                            {% endif %}
+
+                            {% if given_data == 'form2' %}
+                            <option value="form2" selected="selected"> Resistance and Current </option>
+                            {% else %}
+                            <option value="form2"> Resistance and Current
+                            </option>
+                            {% endif %}
+
+                            {% if given_data == 'form3' %}
+                            <option value="form3" selected="selected"> Voltage and Current </option>
+                            {% else %}
+                            <option value="form3"> Voltage and Current
+                            </option>
+                            {% endif %}
+
+
+
+                        </select>
+                    </div>
+                    
+                    {% if given_data != "form3" %}
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><strong>Resistance:</strong></div>
+                        </div>
+                        <input type="text" oninput="validateNumber(this);" id="inlineFormInputGroup" required=""
+                            placeholder="Enter number" maxlength="10" class="form-control" name="w" value="{{w}}">
+
+
+                        <select class="select form-control" id="inlineFormInputGroup" name="w_op">
+                            {% if w_op == 'm' %}
+                            <option value="m" selected="selected">milliohm </option>
+                            {% else %}
+                            <option value="m">milliohm</option>
+                            {% endif %}
+
+                            {% if w_op == 'nm' %}
+                            <option value="nm" selected="selected">ohm</option>
+                            {% else %}
+                            <option value="nm">ohm</option>
+                            {% endif %}
+                            
+                            {% if w_op == 'um' %}
+                            <option value="um" selected="selected">kiloohm</option>
+                            {% else %}
+                            <option value="um">kiloohm</option>
+                            {% endif %}
+
+                            {% if w_op == 'cm' %}
+                            <option value="cm" selected="selected">megaohm</option>
+                            {% else %}
+                            <option value="cm">megaohm</option>
+                            {% endif %}
+
+
+                        </select>
+                    </div>
+                    {% endif %}
+
+                    {% if given_data != "form2" %}
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><strong>Voltage</strong></div>
+                        </div>
+                        <input type="text" oninput="validateNumber(this);" id="inlineFormInputGroup" required=""
+                            placeholder="Enter number" maxlength="10" class="form-control" name="ad" value="{{ad}}">
+
+
+                        <select class="select form-control" id="inlineFormInputGroup" name="ad_op">
+
+                            {% if ad_op == 'm' %}
+                            <option value="m" selected="selected">Volt</option>
+                            {% else %}
+                            <option value="m">Volt</option>
+                            {% endif %}
+
+                             {% if ad_op == 'mm' %}
+                            <option value="mm" selected="selected">milliVolt</option>
+                            {% else %}
+                            <option value="mm">milliVolt</option>
+                            {% endif %}
+
+                            
+
+
+                            {% if ad_op == 'km' %}
+                            <option value="km" selected="selected">kiloVolt</option>
+                            {% else %}
+                            <option value="km">kiloVolt</option>
+                            {% endif %}
+
+
+                            {% if ad_op == 'mi' %}
+                            <option value="mi" selected="selected">megaVolt</option>
+                            {% else %}
+                            <option value="mi">megaVolt</option>
+                            {% endif %}
+
+                           
+
+
+
+                        </select>
+                    </div>
+
+                    {% endif %}
+
+                    {% if given_data != "form1" %}
+                   
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><strong>Current</strong></div>
+                        </div>
+                        <input type="text" oninput="validateNumber(this);" id="inlineFormInputGroup" required=""
+                           placeholder="Enter number" maxlength="10" class="form-control" name="r" value="{{r}}">
+
+                        <select class="select form-control" id="inlineFormInputGroup" name="r_op">
+                             {% if r_op == 'rad' %}
+                            <option value="rad" selected="selected">Ampere</option>
+                            {% else %}
+                            <option value="rad">Ampere</option>
+                            {% endif %}
+
+                             {% if r_op == 'deg' %}
+                            <option value="deg" selected="selected">milliAmpere</option>
+                            {% else %}
+                            <option value="deg">milliAmpere</option>
+                            {% endif %}
+                            
+                            
+                            
+                            {% if r_op == 'gon' %}
+                            <option value="gon" selected="selected">microAmpere</option>
+                            {% else %}
+                            <option value="gon">microAmpere</option>
+                            {% endif %}
+
+                            
+
+
+
+                        </select>
+                    </div>
+
+                    {% endif %}
+
+
+
+
+
+                   
+
+                    <div class=" center col mt-2 ">
+                        <center><button type="submit" class="btn btn-primary">Calculate</button>
+                            <button type="button" onclick="myFunction()" style="margin-top:5px;"
+                                class="btn btn-danger">Reset</button>
+                        </center>
+                    </div>
+
+
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div id="clear">
+    {% if given_data == "form1" and w %}
+
+
+
+    <div class="card" id="get_resolution">
+        <div class="card-header">
+            <h2 class="h2">Steps to Find power</h2>
+        </div>
+        <div class="card-body">
+
+            <strong>Power formula</strong>
+            <br>
+            <p class="btn btn-outline-secondary active">Resistance *current</p>
+            <br>
+            <strong>where:</strong>
+            <ul>
+                <li>O is the resistance in Ohm</li>
+                <li>V is the Voltage in Volt</li>
+                <li>A is the current in Ampere</li>
+            </ul>
+            <details>
+                <summary>Final Power(W) is {{power}}Watt</summary>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <th>Units</th>
+                        <th>Values</th>
+                    </thead>
+                <tbody>
+                {% for key, value in powerall.items %}
+                <tr>
+                    <td> {{ key }} </td> 
+                    <td> {{ value }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            </details>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+
+
+    {% if given_data == "form2" and w %}
+
+    <div class="card" id="get_resolution">
+        <div class="card-header">
+            <h2 class="h2">Steps to Find power</h2>
+        </div>
+        <div class="card-body">
+
+            <strong>Power formula</strong>
+            <br>
+            <p class="btn btn-outline-secondary active">Resistance *current</p>
+            <br>
+            <strong>where:</strong>
+            <ul>
+                <li>O is the resistance in Ohm</li>
+                <li>V is the Voltage in Volt</li>
+                <li>A is the current in Ampere</li>
+            </ul>
+            <details>
+                <summary>Final Power(W) is {{power}}Watt</summary>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <th>Units</th>
+                        <th>Values</th>
+                    </thead>
+                <tbody>
+                {% for key, value in powerall.items %}
+                <tr>
+                    <td> {{ key }} </td> 
+                    <td> {{ value }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            </details>
+
+        </div>
+
+    </div>
+
+
+    
+    {% endif %}
+
+
+    {% if given_data == "form3" and w or w == 0 %}
+
+
+    <div class="card" id="get_resolution">
+        <div class="card-header">
+            <h2 class="h2">Steps to Find power</h2>
+        </div>
+        <div class="card-body">
+
+            <strong>Power formula</strong>
+            <br>
+            <p class="btn btn-outline-secondary active">Resistance *current</p>
+            <br>
+            <strong>where:</strong>
+            <ul>
+                <li>O is the resistance in Ohm</li>
+                <li>V is the Voltage in Volt</li>
+                <li>A is the current in Ampere</li>
+            </ul>
+            <details>
+                <summary>Final Power(W) is {{power}}Watt</summary>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <th>Units</th>
+                        <th>Values</th>
+                    </thead>
+                <tbody>
+                {% for key, value in powerall.items %}
+                <tr>
+                    <td> {{ key }} </td> 
+                    <td> {{ value }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            </details>
+
+        </div>
+
+    </div>
+
+    
+    {% endif %}
+</div>
+</div>
+
+
+
+
+
+<script>
+    var validNumber = new RegExp(/^\d*\.?-?\d*$/);
+    var fist_input = document.getElementById("inlineFormInputGroup").value;
+    function validateNumber(elem) {
+        console.log(elem)
+        if (validNumber.test(elem.value)) {
+            fist_input = elem.value;
+        } else {
+            elem.value = fist_input;
+        }
+    }
+</script>
+
+<script>
+    function myFunction() {
+
+        {% if given_data == "form1" %}
+
+            document.getElementsByName("ad")[0].value = "";
+            document.getElementsByName("w")[0].value = "";
+           
+            document.getElementsByName("w_op")[0].value = "m";
+            document.getElementsByName("ad_op")[0].value = "m";
+            
+            document.getElementById("clear").innerHTML = "";
+
+        {% endif %}
+
+        {% if given_data == "form2" %}
+
+            document.getElementsByName("w")[0].value = "";
+            
+            document.getElementsByName("r")[0].value = "";
+            document.getElementsByName("w_op")[0].value = "m";
+          
+            document.getElementsByName("r_op")[0].value = "rad";
+            document.getElementById("clear").innerHTML = "";
+
+        {% endif %}
+
+        {% if given_data == "form3" %}
+
+           
+            document.getElementsByName("ad")[0].value = "";
+            document.getElementsByName("r")[0].value = "";
+          
+            document.getElementsByName("ad_op")[0].value = "m";
+            document.getElementsByName("r_op")[0].value = "rad";
+            document.getElementById("clear").innerHTML = "";
+
+            {% endif %}
+
+   
+
+    }
+</script>
+<br>
+
+
+{%endblock%}
